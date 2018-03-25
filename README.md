@@ -2,7 +2,11 @@
 
 ## Description
 
-**HideThatBanner** performs a modification to the QTS App Center to hide the animated banner at the top of the store pages.
+**HideThatBanner** performs a modification to the QTS App Center to hide the animated banner at the top of store pages.
+
+
+![banner animation](images/banner.ani.gif)
+
 
 ## How to install
 
@@ -14,3 +18,5 @@
 ## Notes
 
 - After installation, clear your browser cache before accessing the QTS App Center.
+
+https://forum.qnap.com/viewtopic.php?f=11&t=139526
