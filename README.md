@@ -19,4 +19,4 @@
 
 - After installation, clear your browser cache before accessing the QTS App Center.
 
-https://forum.qnap.com/viewtopic.php?f=11&t=139526
+- This was first discussed [here](https://forum.qnap.com/viewtopic.php?f=11&t=139526).
