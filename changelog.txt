@@ -1,1 +1,5 @@
+* Minor update: (180326)
+- Changed package icon.
+
 * Initial release: (180325)
+- First public release.

@@ -1,4 +1,4 @@
-![icon](images/hidethatbanner.png)
+![icon](images/hidethatbanner.jpg)
 
 ## <u>Description</u>
 
