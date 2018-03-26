@@ -6,7 +6,7 @@
 #
 # For more info: [https://forum.qnap.com/viewtopic.php?f=320&t=140215]
 #
-# Available in the Qnapclub Store: [https://qnapclub.eu/en/qpkg/508]
+# Available in the Qnapclub Store: [https://qnapclub.eu/en/qpkg/560]
 # Project source: [https://github.com/OneCDOnly/HideThatBanner]
 #
 # This program is free software: you can redistribute it and/or modify it under
