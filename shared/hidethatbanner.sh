@@ -4,7 +4,7 @@
 #
 # This script is part of the 'HideThatBanner' package
 #
-# For more info: [https://forum.qnap.com/viewtopic.php?f=320&t=133132]
+# For more info: [https://forum.qnap.com/viewtopic.php?f=320&t=140215]
 #
 # Available in the Qnapclub Store: [https://qnapclub.eu/en/qpkg/508]
 # Project source: [https://github.com/OneCDOnly/HideThatBanner]
