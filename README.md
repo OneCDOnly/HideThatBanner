@@ -10,7 +10,7 @@
 
 ## How to install
 
-- Available in the [Qnapclub Store!](https://qnapclub.eu/en/qpkg/508)
+- Available in the [Qnapclub Store!](https://qnapclub.eu/en/qpkg/560)
 
 - [Click here](https://qnapclub.eu/en/howto/1) to learn how to add the **Qnapclub Store** as an App Center repository in QTS.
 
