@@ -23,16 +23,16 @@
 # this program. If not, see http://www.gnu.org/licenses/.
 ############################################################################
 
-SOURCE_PATHFILE="/home/httpd/cgi-bin/apps/qpkg/css/qpkg.css"
+SOURCE_PATHFILE=/home/httpd/cgi-bin/apps/qpkg/css/qpkg.css
 BACKUP_PATHFILE="${SOURCE_PATHFILE}.bak"
 
 case "$1" in
     start)
-        cp "$SOURCE_PATHFILE" "$BACKUP_PATHFILE"
+        [[ ! -e $BACKUP_PATHFILE ]] && cp "$SOURCE_PATHFILE" "$BACKUP_PATHFILE"
         sed -i 's|.store_banner_area{margin-top:20px;height:180px;}|.store_banner_area{margin-top:20px;height:0px;}|;s|.banner_area .banner_img{height:175px;width:400px;}|.banner_area .banner_img{height:0px;width:400px;}|' "$SOURCE_PATHFILE"
         ;;
     stop)
-        cp "$BACKUP_PATHFILE" "$SOURCE_PATHFILE"
+        [[ -e $BACKUP_PATHFILE ]] && cp "$BACKUP_PATHFILE" "$SOURCE_PATHFILE"
         ;;
     restart)
         $0 stop

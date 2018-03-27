@@ -1,3 +1,6 @@
+* Minor update: (180328)
+- Don't backup original file if backup exists.
+
 * Minor update: (180326)
 - Changed package icon.
 
