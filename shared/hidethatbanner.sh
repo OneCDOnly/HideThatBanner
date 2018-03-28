@@ -23,13 +23,19 @@
 # this program. If not, see http://www.gnu.org/licenses/.
 ############################################################################
 
+FIRMWARE_VERSION="$(getcfg System Version -f /etc/config/uLinux.conf)"
 SOURCE_PATHFILE=/home/httpd/cgi-bin/apps/qpkg/css/qpkg.css
 BACKUP_PATHFILE="${SOURCE_PATHFILE}.bak"
 
 case "$1" in
     start)
         [[ ! -e $BACKUP_PATHFILE ]] && cp "$SOURCE_PATHFILE" "$BACKUP_PATHFILE"
-        sed -i 's|.store_banner_area{margin-top:20px;height:180px;}|.store_banner_area{margin-top:20px;height:0px;}|;s|.banner_area .banner_img{height:175px;width:400px;}|.banner_area .banner_img{height:0px;width:400px;}|' "$SOURCE_PATHFILE"
+
+		if [[ ${FIRMWARE_VERSION//.} -lt 434 ]]; then
+			sed -i 's|.store_banner_area{margin-top:20px;height:180px;}|.store_banner_area{margin-top:20px;height:0px;}|;s|.banner_area .banner_img{height:175px;width:400px;}|.banner_area .banner_img{height:0px;width:400px;}|' "$SOURCE_PATHFILE"
+		else
+			sed -i 's|.store_banner_area{height:200px;|.store_banner_area{height:0px;|;s|.banner_area .banner_img{height:174px;width:399px;}|.banner_area .banner_img{height:0px;width:399px;}|' "$SOURCE_PATHFILE"
+		fi
         ;;
     stop)
         [[ -e $BACKUP_PATHFILE ]] && cp "$BACKUP_PATHFILE" "$SOURCE_PATHFILE"

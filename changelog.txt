@@ -1,5 +1,6 @@
-* Minor update: (180328)
+** Major update: (180328)
 - Don't backup original file if backup exists.
+- Now compatible with QTS 4.3.4
 
 * Minor update: (180326)
 - Changed package icon.
