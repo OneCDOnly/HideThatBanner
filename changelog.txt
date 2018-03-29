@@ -1,3 +1,6 @@
+* Minor update: (180330)
+- Add system log entry. If patching fails, also record QTS version.
+
 ** Major update: (180328)
 - Don't backup original file if backup exists.
 - Now compatible with QTS 4.3.4
