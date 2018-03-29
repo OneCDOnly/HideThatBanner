@@ -1,11 +1,10 @@
 #!/usr/bin/env bash
 ############################################################################
-# sort-my-qpkgs.sh - (C)opyright 2018 OneCD [one.cd.only@gmail.com]
+# hidethatbanner.sh - (C)opyright 2018 OneCD [one.cd.only@gmail.com]
 #
 # This script is part of the 'HideThatBanner' package
 #
 # For more info: [https://forum.qnap.com/viewtopic.php?f=320&t=140215]
-#
 # Available in the Qnapclub Store: [https://qnapclub.eu/en/qpkg/560]
 # Project source: [https://github.com/OneCDOnly/HideThatBanner]
 #
