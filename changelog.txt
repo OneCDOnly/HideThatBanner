@@ -1,3 +1,6 @@
+** Major update: (180331b)
+- Switched to version-agnostic CSS patch. Thanks Christophe!
+
 * Minor update: (180330)
 - Add system log entry. If patching fails, also record QTS version.
 

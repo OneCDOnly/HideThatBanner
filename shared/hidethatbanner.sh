@@ -30,12 +30,6 @@ Init()
     SOURCE_PATHFILE=/home/httpd/cgi-bin/apps/qpkg/css/qpkg.css
     BACKUP_PATHFILE="${SOURCE_PATHFILE}.bak"
 
-    if [[ ${FIRMWARE_VERSION//.} -lt 434 ]]; then
-        SUBSTR='s|.store_banner_area{margin-top:20px;height:180px;}|.store_banner_area{margin-top:20px;height:0px;}|;s|.banner_area .banner_img{height:175px;width:400px;}|.banner_area .banner_img{height:0px;width:400px;}|'
-    else
-        SUBSTR='s|.store_banner_area{height:200px;|.store_banner_area{height:0px;|;s|.banner_area .banner_img{height:174px;width:399px;}|.banner_area .banner_img{height:0px;width:399px;}|'
-    fi
-
     }
 
 LogWrite()
@@ -56,7 +50,7 @@ Init
 case "$1" in
     start)
         [[ ! -e $BACKUP_PATHFILE ]] && cp "$SOURCE_PATHFILE" "$BACKUP_PATHFILE"
-        sed -i "$SUBSTR" "$SOURCE_PATHFILE"
+        sed -i 's|.store_banner_area{|.store_banner_area{display:none;|' "$SOURCE_PATHFILE"
         if ! (/bin/cmp -s "$SOURCE_PATHFILE" "$BACKUP_PATHFILE"); then
             LogWrite "App Center was patched successfully" 0
         else
