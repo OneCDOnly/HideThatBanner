@@ -1,5 +1,6 @@
 ** Major update: (180331b)
-- Switched to version-agnostic CSS patch. Thanks Christophe!
+- Switched to version-agnostic CSS patch.
+- Thanks to Christophe from the Qnapclub Store for the suggestion!
 
 * Minor update: (180330)
 - Add system log entry. If patching fails, also record QTS version.

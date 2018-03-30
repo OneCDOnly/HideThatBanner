@@ -17,9 +17,16 @@ Yes, *this* rather distracting and annoying thing will be hidden:
 - [Click here](https://qnapclub.eu/en/howto/1) to learn how to add the **Qnapclub Store** as an App Center repository in QTS.
 
 
+## Firmware compatibility
+
+* QTS 4.3.4 - **OK**
+* QTS 4.3.3 - **Unknown**
+* QTS 4.2.6 - **OK**
+* QTS 4.2.5 and earlier - **Unknown**
+
 ## <u>Notes</u>
 
-- It's only been tested on QTS 4.2.6. Please advise if it works on other firmwares. If it doesn't, and you'd like to help make it so, please post in the forum topic and we'll work it out.
+- Please advise if this modification works on other firmwares. If it doesn't, and you'd like to help make it so, please post in this topic and we'll work it out together.
 
 - This was first discussed [here](https://forum.qnap.com/viewtopic.php?f=11&t=139526).
 
