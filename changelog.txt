@@ -1,4 +1,4 @@
-** Major update: (180331b)
+** Major update: (180331)
 - Switched to version-agnostic CSS patch.
 - Thanks to Christophe from the Qnapclub Store for the suggestion!
 
