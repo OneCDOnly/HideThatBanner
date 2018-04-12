@@ -2,9 +2,9 @@
 
 ## <u>Description</u>
 
-**HideThatBanner** performs a modification to the QTS App Center to hide the animated banner at the top of store pages.
+**HideThatBanner** modifies the QTS App Center to hide the rotating banner shown at the top of store pages.
 
-Yes, *this* rather distracting and annoying thing will be hidden:
+Which is *this* rather distracting and annoying thing:
 
 ![banner animation](images/banner.ani.gif)
 
@@ -20,15 +20,15 @@ Yes, *this* rather distracting and annoying thing will be hidden:
 ## Firmware compatibility
 
 * QTS 4.3.4 - **OK**
-* QTS 4.3.3 - **Unknown**
+* QTS 4.3.3 - **OK**
 * QTS 4.2.6 - **OK**
 * QTS 4.2.5 and earlier - **Unknown**
 
 ## <u>Notes</u>
 
-- Please advise if this modification works on other firmwares. If it doesn't, and you'd like to help make it so, please post in this topic and we'll work it out together.
+- Please advise if this modification works on other firmwares. If it doesn't, and you'd like to help make it so, please post on the QNAP forum [here](https://forum.qnap.com/viewtopic.php?f=320&t=140215) and we'll work it out together.
 
-- This was first discussed [here](https://forum.qnap.com/viewtopic.php?f=11&t=139526).
+- The idea was first discussed [here](https://forum.qnap.com/viewtopic.php?f=11&t=139526).
 
 - This package’s [source](url=https://github.com/OneCDOnly/HideThatBanner) is available on GitHub.
 
