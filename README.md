@@ -12,13 +12,14 @@ Which is *this* rather distracting and annoying thing:
 
 - It's available in the [Qnapclub Store!](https://qnapclub.eu/en/qpkg/560)
 
-- After installation, force-reload the App Center (I think CTRL+F5 is the usual key combo). You may also need to clear your browser cache.
+- After installation, [force-reload](https://www.getfilecloud.com/blog/2015/03/tech-tip-how-to-do-hard-refresh-in-browsers/) the App Center page (CTRL+F5 is the usual key combo).
 
 - [Click here](https://qnapclub.eu/en/howto/1) to learn how to add the **Qnapclub Store** as an App Center repository in QTS.
 
 
-## Firmware compatibility
+## <u>Firmware compatibility</u>
 
+* QTS 4.3.5 - **Testing now**, please advise if it works or not.
 * QTS 4.3.4 - **OK**
 * QTS 4.3.3 - **OK**
 * QTS 4.2.6 - **OK**
@@ -30,6 +31,6 @@ Which is *this* rather distracting and annoying thing:
 
 - The idea was first discussed [here](https://forum.qnap.com/viewtopic.php?f=11&t=139526).
 
-- This package’s [source](url=https://github.com/OneCDOnly/HideThatBanner) is available on GitHub.
+- The source for this project can be found on [GitHub](url=https://github.com/OneCDOnly/HideThatBanner).
 
 - [Changelog](https://raw.githubusercontent.com/OneCDOnly/HideThatBanner/master/changelog.txt)
