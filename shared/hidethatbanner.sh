@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-############################################################################
+###############################################################################
 # hidethatbanner.sh - (C)opyright 2018-2020 OneCD [one.cd.only@gmail.com]
 #
 # This script is part of the 'HideThatBanner' package
@@ -20,7 +20,7 @@
 #
 # You should have received a copy of the GNU General Public License along with
 # this program. If not, see http://www.gnu.org/licenses/.
-############################################################################
+###############################################################################
 
 Init()
     {
@@ -50,15 +50,14 @@ Init()
 
     }
 
-
 LogWrite()
     {
 
     # $1 = message to write into NAS system log
     # $2 = event type:
-    #   0 : Information
-    #   1 : Warning
-    #   2 : Error
+    #   0 = Information
+    #   1 = Warning
+    #   2 = Error
 
     /sbin/log_tool --append "[$THIS_QPKG_NAME] $1" --type "$2"
 
