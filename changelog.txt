@@ -1,3 +1,6 @@
+* Minor update: (201219)
+- Add support for QTS 4.5.1 App Center.
+
 ** Major update: (180331)
 - Switched to version-agnostic CSS patch.
 - Thanks to Christophe from the Qnapclub Store for the suggestion!
