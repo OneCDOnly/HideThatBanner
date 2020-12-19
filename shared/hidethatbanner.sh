@@ -22,35 +22,61 @@
 # this program. If not, see http://www.gnu.org/licenses/.
 ############################################################################
 
+Init()
+    {
+
+    readonly THIS_QPKG_NAME=HideThatBanner
+    readonly CONFIG_PATHFILE=/etc/config/qpkg.conf
+
+    if [[ ! -e $CONFIG_PATHFILE ]]; then
+        echo "file not found [$CONFIG_PATHFILE]"
+        exit 1
+    fi
+
+    local GETCFG_CMD=/sbin/getcfg
+    local SETCFG_CMD=/sbin/setcfg
+    readonly CMP_CMD=/bin/cmp
+    readonly SED_CMD=/bin/sed
+
+    local APP_CENTER_NOTIFIER=/sbin/qpkg_cli     # only needed for QTS 4.5.1-and-later
+    readonly SOURCE_PATHFILE=/home/httpd/cgi-bin/apps/qpkg/css/qpkg.css
+    readonly BACKUP_PATHFILE=${SOURCE_PATHFILE}.bak
+    readonly NAS_FIRMWARE=$($GETCFG_CMD System Version -f /etc/config/uLinux.conf)
+
+    $SETCFG_CMD "$THIS_QPKG_NAME" Status complete -f "$CONFIG_PATHFILE"
+
+    # KLUDGE: force-cancel QTS 4.5.1 App Center notifier status as it's often wrong. :(
+    [[ -e $APP_CENTER_NOTIFIER ]] && $APP_CENTER_NOTIFIER -c "$THIS_QPKG_NAME" > /dev/null 2>&1
+
+    }
+
+
 LogWrite()
     {
 
     # $1 = message to write into NAS system log
     # $2 = event type:
-    #    0 : Information
-    #    1 : Warning
-    #    2 : Error
+    #   0 : Information
+    #   1 : Warning
+    #   2 : Error
 
-    log_tool --append "[$THIS_QPKG_NAME] $1" --type "$2"
+    /sbin/log_tool --append "[$THIS_QPKG_NAME] $1" --type "$2"
 
     }
 
-readonly THIS_QPKG_NAME=HideThatBanner
-readonly SOURCE_PATHFILE=/home/httpd/cgi-bin/apps/qpkg/css/qpkg.css
-readonly BACKUP_PATHFILE="${SOURCE_PATHFILE}.bak"
-readonly NAS_FIRMWARE=$(/sbin/getcfg System Version -f /etc/config/uLinux.conf)
+Init
 
 case "$1" in
     start)
         [[ ! -e $BACKUP_PATHFILE ]] && cp "$SOURCE_PATHFILE" "$BACKUP_PATHFILE"
 
         if [[ ${NAS_FIRMWARE//.} -lt 451 ]]; then
-            /bin/sed -i 's|.store_banner_area{|.store_banner_area{display:none;|' "$SOURCE_PATHFILE"
+            $SED_CMD -i 's|.store_banner_area{|.store_banner_area{display:none;|' "$SOURCE_PATHFILE"
         else
-            /bin/sed -i 's|.store_banner_area,.banner_area{|.store_banner_area,.banner_area{display:none;|' "$SOURCE_PATHFILE"
+            $SED_CMD -i 's|.store_banner_area,.banner_area{|.store_banner_area,.banner_area{display:none;|' "$SOURCE_PATHFILE"
         fi
 
-        if ! (/bin/cmp -s "$SOURCE_PATHFILE" "$BACKUP_PATHFILE"); then
+        if ! ($CMP_CMD -s "$SOURCE_PATHFILE" "$BACKUP_PATHFILE"); then
             LogWrite "App Center was patched successfully" 0
         else
             LogWrite "App Center was not patched! (QTS $NAS_FIRMWARE)" 2
@@ -62,5 +88,8 @@ case "$1" in
     restart)
         $0 stop
         $0 start
+        ;;
+    *)
+        echo "run as: $0 {start|stop|restart}"
         ;;
 esac
