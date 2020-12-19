@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 ############################################################################
-# hidethatbanner.sh - (C)opyright 2018 OneCD [one.cd.only@gmail.com]
+# hidethatbanner.sh - (C)opyright 2018-2020 OneCD [one.cd.only@gmail.com]
 #
 # This script is part of the 'HideThatBanner' package
 #
@@ -22,16 +22,6 @@
 # this program. If not, see http://www.gnu.org/licenses/.
 ############################################################################
 
-Init()
-    {
-
-    THIS_QPKG_NAME=HideThatBanner
-    FIRMWARE_VERSION="$(getcfg System Version -f /etc/config/uLinux.conf)"
-    SOURCE_PATHFILE=/home/httpd/cgi-bin/apps/qpkg/css/qpkg.css
-    BACKUP_PATHFILE="${SOURCE_PATHFILE}.bak"
-
-    }
-
 LogWrite()
     {
 
@@ -45,16 +35,25 @@ LogWrite()
 
     }
 
-Init
+readonly THIS_QPKG_NAME=HideThatBanner
+readonly SOURCE_PATHFILE=/home/httpd/cgi-bin/apps/qpkg/css/qpkg.css
+readonly BACKUP_PATHFILE="${SOURCE_PATHFILE}.bak"
+readonly NAS_FIRMWARE=$(/sbin/getcfg System Version -f /etc/config/uLinux.conf)
 
 case "$1" in
     start)
         [[ ! -e $BACKUP_PATHFILE ]] && cp "$SOURCE_PATHFILE" "$BACKUP_PATHFILE"
-        sed -i 's|.store_banner_area{|.store_banner_area{display:none;|' "$SOURCE_PATHFILE"
+
+        if [[ ${NAS_FIRMWARE//.} -lt 451 ]]; then
+            /bin/sed -i 's|.store_banner_area{|.store_banner_area{display:none;|' "$SOURCE_PATHFILE"
+        else
+            /bin/sed -i 's|.store_banner_area,.banner_area{|.store_banner_area,.banner_area{display:none;|' "$SOURCE_PATHFILE"
+        fi
+
         if ! (/bin/cmp -s "$SOURCE_PATHFILE" "$BACKUP_PATHFILE"); then
             LogWrite "App Center was patched successfully" 0
         else
-            LogWrite "App Center was not patched! (QTS $FIRMWARE_VERSION)" 2
+            LogWrite "App Center was not patched! (QTS $NAS_FIRMWARE)" 2
         fi
         ;;
     stop)

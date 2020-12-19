@@ -14,14 +14,13 @@ Which is *this* rather distracting and annoying thing:
 
 - After installation, [force-reload](https://www.getfilecloud.com/blog/2015/03/tech-tip-how-to-do-hard-refresh-in-browsers/) the App Center page (CTRL+F5 is the usual key combo).
 
-- [Click here](https://qnapclub.eu/en/howto/1) to learn how to add the **Qnapclub Store** as an App Center repository in QTS.
+- [Click here](https://qnapclub.eu/en/howto/1) to see how-to add the **Qnapclub Store** as an App Center repository in QTS.
 
 
 ## <u>Firmware compatibility</u>
 
-* QTS 4.3.5 - **Testing now**, please advise if it works or not.
-* QTS 4.3.4 - **OK**
-* QTS 4.3.3 - **OK**
+* QTS 4.3.3 to 4.5.1 **OK**
+* QTS 4.3.0 to 4.3.2 - **Unknown**
 * QTS 4.2.6 - **OK**
 * QTS 4.2.5 and earlier - **Unknown**
 
