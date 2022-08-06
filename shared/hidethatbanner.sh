@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 ###############################################################################
-# hidethatbanner.sh - (C)opyright 2018-2020 OneCD [one.cd.only@gmail.com]
+# hidethatbanner.sh - (C)opyright 2018-2022 OneCD [one.cd.only@gmail.com]
 #
 # This script is part of the 'HideThatBanner' package
 #
@@ -71,8 +71,11 @@ case "$1" in
 
         if [[ ${NAS_FIRMWARE//.} -lt 451 ]]; then
             $SED_CMD -i 's|.store_banner_area{|.store_banner_area{display:none;|' "$SOURCE_PATHFILE"
+        elif [[ ${NAS_FIRMWARE//.} -lt 500 ]]; then
+            $SED_CMD -i 's|.store_banner_area,.banner_area{|.store_banner_area,.banner_area{display:none;|' "$SOURCE_PATHFILE"
         else
             $SED_CMD -i 's|.store_banner_area,.banner_area{|.store_banner_area,.banner_area{display:none;|' "$SOURCE_PATHFILE"
+            $SED_CMD -i 's| .banner_show{| .banner_show{display:none;|' "$SOURCE_PATHFILE"
         fi
 
         if ! ($CMP_CMD -s "$SOURCE_PATHFILE" "$BACKUP_PATHFILE"); then

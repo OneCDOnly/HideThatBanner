@@ -1,3 +1,6 @@
+* Minor update: (220806)
+- Add support for QTS 5.0.0 App Center.
+
 * Minor update: (201219b)
 - Ensure app icon is enabled in QTS 4.5.1.
 

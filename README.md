@@ -19,7 +19,7 @@ Which is *this* rather distracting and annoying thing:
 
 ## <u>Firmware compatibility</u>
 
-* QTS 4.3.3 to 4.5.1 **OK**
+* QTS 4.3.3 to 5.0.1 **OK**
 * QTS 4.3.0 to 4.3.2 - **Unknown**
 * QTS 4.2.6 - **OK**
 * QTS 4.2.5 and earlier - **Unknown**
