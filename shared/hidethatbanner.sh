@@ -25,11 +25,12 @@
 Init()
     {
 
-    readonly THIS_QPKG_NAME=HideThatBanner
+    readonly QPKG_NAME=HideThatBanner
     readonly CONFIG_PATHFILE=/etc/config/qpkg.conf
 
     if [[ ! -e $CONFIG_PATHFILE ]]; then
         echo "file not found [$CONFIG_PATHFILE]"
+        SetServiceOperationResultFailed
         exit 1
     fi
 
@@ -42,11 +43,12 @@ Init()
     readonly SOURCE_PATHFILE=/home/httpd/cgi-bin/apps/qpkg/css/qpkg.css
     readonly BACKUP_PATHFILE=${SOURCE_PATHFILE}.bak
     readonly NAS_FIRMWARE=$($GETCFG_CMD System Version -f /etc/config/uLinux.conf)
+    readonly SERVICE_STATUS_PATHFILE=/var/run/$QPKG_NAME.last.operation
 
-    $SETCFG_CMD "$THIS_QPKG_NAME" Status complete -f "$CONFIG_PATHFILE"
+    $SETCFG_CMD "$QPKG_NAME" Status complete -f "$CONFIG_PATHFILE"
 
     # KLUDGE: force-cancel QTS 4.5.1 App Center notifier status as it's often wrong. :(
-    [[ -e $APP_CENTER_NOTIFIER ]] && $APP_CENTER_NOTIFIER -c "$THIS_QPKG_NAME" > /dev/null 2>&1
+    [[ -e $APP_CENTER_NOTIFIER ]] && $APP_CENTER_NOTIFIER -c "$QPKG_NAME" > /dev/null 2>&1
 
     }
 
@@ -59,7 +61,30 @@ LogWrite()
     #   1 = Warning
     #   2 = Error
 
-    /sbin/log_tool --append "[$THIS_QPKG_NAME] $1" --type "$2"
+    /sbin/log_tool --append "[$QPKG_NAME] $1" --type "$2"
+
+    }
+
+SetServiceOperationResultOK()
+    {
+
+    SetServiceOperationResult ok
+
+    }
+
+SetServiceOperationResultFailed()
+    {
+
+    SetServiceOperationResult failed
+
+    }
+
+SetServiceOperationResult()
+    {
+
+    # $1 = result of operation to recorded
+
+    [[ -n $1 && -n $SERVICE_STATUS_PATHFILE ]] && echo "$1" > "$SERVICE_STATUS_PATHFILE"
 
     }
 
@@ -80,12 +105,15 @@ case "$1" in
 
         if ! ($CMP_CMD -s "$SOURCE_PATHFILE" "$BACKUP_PATHFILE"); then
             LogWrite "App Center was patched successfully" 0
+            SetServiceOperationResultOK
         else
             LogWrite "App Center was not patched! (QTS $NAS_FIRMWARE)" 2
+            SetServiceOperationResultFailed
         fi
         ;;
     stop)
         [[ -e $BACKUP_PATHFILE ]] && cp "$BACKUP_PATHFILE" "$SOURCE_PATHFILE"
+        SetServiceOperationResultOK
         ;;
     restart)
         $0 stop
@@ -93,5 +121,4 @@ case "$1" in
         ;;
     *)
         echo "run as: $0 {start|stop|restart}"
-        ;;
 esac

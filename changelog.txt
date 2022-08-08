@@ -1,3 +1,6 @@
+* Minor update: (220809)
+- Include service script operation status logging.
+
 * Minor update: (220806)
 - Add support for QTS 5.0.0 App Center.
 
