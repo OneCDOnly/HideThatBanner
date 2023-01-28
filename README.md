@@ -8,13 +8,9 @@ Which is *this* rather distracting and annoying thing:
 
 ![banner animation](images/banner.ani.gif)
 
-## <u>How to install</u>
+## <u>Installation</u>
 
-- It's available in the [Qnapclub Store!](https://qnapclub.eu/en/qpkg/560)
-
-- After installation, [force-reload](https://www.getfilecloud.com/blog/2015/03/tech-tip-how-to-do-hard-refresh-in-browsers/) the App Center page (CTRL+F5 is the usual key combo).
-
-- [Click here](https://qnapclub.eu/en/howto/1) to see how-to add the **Qnapclub Store** as an App Center repository in QTS.
+- available in the [MyQNAP repo](https://www.myqnap.org/product/hidethatbanner), and can also be installed via the [sherpa](https://github.com/OneCDOnly/sherpa) package manager.
 
 
 ## <u>Firmware compatibility</u>
