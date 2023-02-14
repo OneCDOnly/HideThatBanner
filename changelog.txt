@@ -1,3 +1,6 @@
+* Minor update: (230214)
+- Updated package icon.
+
 * Minor update: (230112)
 - Updated ref to myqnap.org
 
