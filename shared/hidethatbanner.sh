@@ -23,29 +23,27 @@
 # this program. If not, see http://www.gnu.org/licenses/.
 ###############################################################################
 
+readonly USER_ARGS_RAW=$*
+
 Init()
     {
 
     readonly QPKG_NAME=HideThatBanner
-    readonly CONFIG_PATHFILE=/etc/config/qpkg.conf
 
-    if [[ ! -e $CONFIG_PATHFILE ]]; then
-        echo "file not found [$CONFIG_PATHFILE]"
-        SetServiceOperationResultFailed
-        exit 1
-    fi
+    [[ ! -e /dev/fd ]] && ln -s /proc/self/fd /dev/fd   # sometimes, '/dev/fd' isn't created by QTS. Don't know why.
 
-    readonly SED_CMD=/bin/sed
-    local APP_CENTER_NOTIFIER=/sbin/qpkg_cli     # only needed for QTS 4.5.1-and-later
     readonly SOURCE_PATHFILE=/home/httpd/cgi-bin/apps/qpkg/css/qpkg.css
     readonly BACKUP_PATHFILE=${SOURCE_PATHFILE}.bak
     readonly NAS_FIRMWARE=$(/sbin/getcfg System Version -f /etc/config/uLinux.conf)
+    readonly BUILD=$(/sbin/getcfg $QPKG_NAME Build -f /etc/config/qpkg.conf)
     readonly SERVICE_STATUS_PATHFILE=/var/run/$QPKG_NAME.last.operation
 
-    /sbin/setcfg "$QPKG_NAME" Status complete -f "$CONFIG_PATHFILE"
+    /sbin/setcfg "$QPKG_NAME" Status complete -f /etc/config/qpkg.conf
 
-    # KLUDGE: force-cancel QTS 4.5.1 App Center notifier status as it's often wrong. :(
-    [[ -e $APP_CENTER_NOTIFIER ]] && $APP_CENTER_NOTIFIER -c "$QPKG_NAME" > /dev/null 2>&1
+    # KLUDGE: 'clean' the QTS 4.5.1 App Center notifier status
+    [[ -e /sbin/qpkg_cli ]] && /sbin/qpkg_cli --clean "$QPKG_NAME" > /dev/null 2>&1
+
+    [[ ${#USER_ARGS_RAW} -eq 0 ]] && echo "$QPKG_NAME ($BUILD)"
 
     }
 
@@ -92,12 +90,12 @@ case "$1" in
         [[ ! -e $BACKUP_PATHFILE ]] && cp "$SOURCE_PATHFILE" "$BACKUP_PATHFILE"
 
         if [[ ${NAS_FIRMWARE//.} -lt 451 ]]; then
-            $SED_CMD -i 's|.store_banner_area{|.store_banner_area{display:none;|' "$SOURCE_PATHFILE"
+            /bin/sed -i 's|.store_banner_area{|.store_banner_area{display:none;|' "$SOURCE_PATHFILE"
         elif [[ ${NAS_FIRMWARE//.} -lt 500 ]]; then
-            $SED_CMD -i 's|.store_banner_area,.banner_area{|.store_banner_area,.banner_area{display:none;|' "$SOURCE_PATHFILE"
+            /bin/sed -i 's|.store_banner_area,.banner_area{|.store_banner_area,.banner_area{display:none;|' "$SOURCE_PATHFILE"
         else
-            $SED_CMD -i 's|.store_banner_area,.banner_area{|.store_banner_area,.banner_area{display:none;|' "$SOURCE_PATHFILE"
-            $SED_CMD -i 's| .banner_show{| .banner_show{display:none;|' "$SOURCE_PATHFILE"
+            /bin/sed -i 's|.store_banner_area,.banner_area{|.store_banner_area,.banner_area{display:none;|' "$SOURCE_PATHFILE"
+            /bin/sed -i 's| .banner_show{| .banner_show{display:none;|' "$SOURCE_PATHFILE"
         fi
 
         if ! (/bin/cmp -s "$SOURCE_PATHFILE" "$BACKUP_PATHFILE"); then

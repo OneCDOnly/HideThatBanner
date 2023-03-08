@@ -1,3 +1,6 @@
+* Minor update: (230309)
+- Ensure compatibility with qpkg_service utility.
+
 * Minor update: (230214)
 - Updated package icon.
 
