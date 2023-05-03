@@ -114,6 +114,15 @@ case "$1" in
         $0 stop
         $0 start
         ;;
+	status)
+        if ! (/bin/cmp -s "$SOURCE_PATHFILE" "$BACKUP_PATHFILE"); then
+			echo 'active'
+			exit 0
+		else
+			echo 'inactive'
+			exit 1
+		fi
+		;;
     *)
-        echo "run as: $0 {start|stop|restart}"
+        echo "run as: $0 {start|stop|restart|status}"
 esac
