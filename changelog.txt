@@ -1,3 +1,6 @@
+* Minor update: (240126)
+- Change displayname to show as OS utility.
+
 * Minor update: (230503)
 - Add 'status' action.
 
