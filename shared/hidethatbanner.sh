@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 ###############################################################################
-# hidethatbanner.sh - (C)opyright 2018-2023 OneCD - one.cd.only@gmail.com
+# hidethatbanner.sh - (C)opyright 2018-2024 OneCD - one.cd.only@gmail.com
 
 # This script is part of the 'HideThatBanner' package
 
@@ -83,6 +83,17 @@ SetServiceOperationResult()
 
     }
 
+GetQnapOS()
+	{
+
+	if /bin/grep -q zfs /proc/filesystems; then
+		echo 'QuTS hero'
+	else
+		echo QTS
+	fi
+
+	}
+
 Init
 
 case "$1" in
@@ -99,10 +110,10 @@ case "$1" in
         fi
 
         if ! (/bin/cmp -s "$SOURCE_PATHFILE" "$BACKUP_PATHFILE"); then
-            LogWrite 'App Center was patched successfully' 0
+            LogWrite 'App Center UI was patched successfully' 0
             SetServiceOperationResultOK
         else
-            LogWrite "App Center was not patched! (QTS $NAS_FIRMWARE)" 2
+            LogWrite "App Center UI was not patched! ($(GetQnapOS) $NAS_FIRMWARE)" 2
             SetServiceOperationResultFailed
         fi
         ;;

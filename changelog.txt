@@ -1,3 +1,6 @@
+* Minor update: (240205)
+- Include actual OS type when reporting error.
+
 * Minor update: (240126)
 - Change displayname to show as OS utility.
 
