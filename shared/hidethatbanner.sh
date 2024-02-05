@@ -28,19 +28,22 @@ readonly USER_ARGS_RAW=$*
 Init()
     {
 
+	# KLUDGE: `/dev/fd` isn't always created by QTS.
+	ln -fns /proc/self/fd /dev/fd
+
     readonly QPKG_NAME=HideThatBanner
-
-    [[ ! -e /dev/fd ]] && ln -s /proc/self/fd /dev/fd   # sometimes, '/dev/fd' isn't created by QTS. Don't know why.
-
+        BUILD=$(/sbin/getcfg $QPKG_NAME Build -f /etc/config/qpkg.conf)
+        readonly SERVICE_STATUS_PATHFILE=/var/run/$QPKG_NAME.last.operation
+    NAS_FIRMWARE=$(/sbin/getcfg System Version -f /etc/config/uLinux.conf)
     readonly SOURCE_PATHFILE=/home/httpd/cgi-bin/apps/qpkg/css/qpkg.css
-    readonly BACKUP_PATHFILE=${SOURCE_PATHFILE}.bak
-    readonly NAS_FIRMWARE=$(/sbin/getcfg System Version -f /etc/config/uLinux.conf)
-    readonly BUILD=$(/sbin/getcfg $QPKG_NAME Build -f /etc/config/qpkg.conf)
-    readonly SERVICE_STATUS_PATHFILE=/var/run/$QPKG_NAME.last.operation
+        readonly BACKUP_PATHFILE=${SOURCE_PATHFILE}.bak
+
+    readonly BUILD
+    readonly NAS_FIRMWARE
 
     /sbin/setcfg "$QPKG_NAME" Status complete -f /etc/config/qpkg.conf
 
-    # KLUDGE: 'clean' the QTS 4.5.1 App Center notifier status
+    # KLUDGE: 'clean' the QTS 4.5.1 App Center notifier status.
     [[ -e /sbin/qpkg_cli ]] && /sbin/qpkg_cli --clean "$QPKG_NAME" > /dev/null 2>&1
 
     [[ ${#USER_ARGS_RAW} -eq 0 ]] && echo "$QPKG_NAME ($BUILD)"
@@ -87,9 +90,9 @@ GetQnapOS()
 	{
 
 	if /bin/grep -q zfs /proc/filesystems; then
-		echo 'QuTS hero'
+		printf 'QuTS hero'
 	else
-		echo QTS
+		printf QTS
 	fi
 
 	}
@@ -110,10 +113,10 @@ case "$1" in
         fi
 
         if ! (/bin/cmp -s "$SOURCE_PATHFILE" "$BACKUP_PATHFILE"); then
-            LogWrite 'App Center UI was patched successfully' 0
+            LogWrite 'App Center UI was patched successfully.' 0
             SetServiceOperationResultOK
         else
-            LogWrite "App Center UI was not patched! ($(GetQnapOS) $NAS_FIRMWARE)" 2
+            LogWrite "App Center UI was not patched ($(GetQnapOS) $NAS_FIRMWARE)." 2
             SetServiceOperationResultFailed
         fi
         ;;
