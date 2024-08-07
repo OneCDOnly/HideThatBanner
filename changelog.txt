@@ -1,3 +1,8 @@
+* Minor update: (240807)
+- general code refresh,
+- update actions for compatibility with sherpa,
+- improve message format.
+
 * Minor update: (240205)
 - Include actual OS type when reporting error.
 
