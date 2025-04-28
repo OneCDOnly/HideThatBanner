@@ -1,7 +1,7 @@
 * Minor update: (240807)
-- general code refresh,
-- update actions for compatibility with sherpa,
-- improve message format.
+- General code refresh.
+- Update actions for compatibility with sherpa.
+- Improve message format.
 
 * Minor update: (240205)
 - Include actual OS type when reporting error.
@@ -35,7 +35,7 @@
 
 ** Major update: (180331)
 - Switched to version-agnostic CSS patch.
-- Thanks to Christophe from the Qnapclub Store for the suggestion!
+- With thanks to Christophe from the Qnapclub Store (now defunct) for the suggestion.
 
 * Minor update: (180330)
 - Add system log entry. If patching fails, also record QTS version.
