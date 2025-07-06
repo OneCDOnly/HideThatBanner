@@ -1,16 +1,25 @@
 #!/usr/bin/env bash
 ###############################################################################
 # hidethatbanner.sh
-# 	copyright 2018-2024 OneCD
+# 	Copyright 2018-2025 OneCD
 #
 # Contact:
 #	one.cd.only@gmail.com
 #
-# This script is part of the 'HideThatBanner' package
+# Description:
+#   This script is part of the 'HideThatBanner' package
 #
-# Available in the MyQNAP store: https://www.myqnap.org/product/hidethatbanner
-# Project source: https://github.com/OneCDOnly/HideThatBanner
-# Community forum: https://forum.qnap.com/viewtopic.php?t=140215
+# Available in the MyQNAP store:
+#   https://www.myqnap.org/product/hidethatbanner
+#
+# And via the sherpa package manager:
+#	https://git.io/sherpa
+#
+# Project source:
+#   https://github.com/OneCDOnly/HideThatBanner
+#
+# Community forum:
+#   https://community.qnap.com/t/qpkg-hidethatbanner/1098
 #
 # This program is free software: you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free Software
@@ -28,48 +37,50 @@
 
 set -o nounset -o pipefail
 shopt -s extglob
-ln -fns /proc/self/fd /dev/fd		# KLUDGE: `/dev/fd` isn't always created by QTS.
-
-readonly USER_ARGS_RAW=$*
+[[ -L /dev/fd ]] || ln -fns /proc/self/fd /dev/fd		# KLUDGE: `/dev/fd` isn't always created by QTS.
+readonly r_user_args_raw=$*
 
 Init()
     {
 
-    readonly QPKG_NAME=HideThatBanner
+    readonly r_qpkg_name=HideThatBanner
 
-    readonly NAS_FIRMWARE=$(/sbin/getcfg System Version -f /etc/config/uLinux.conf)
-    readonly QPKG_VERSION=$(/sbin/getcfg $QPKG_NAME Version -f /etc/config/qpkg.conf)
-	readonly SERVICE_ACTION_PATHFILE=/var/log/$QPKG_NAME.action
-	readonly SERVICE_RESULT_PATHFILE=/var/log/$QPKG_NAME.result
-    readonly SOURCE_PATHFILE=/home/httpd/cgi-bin/apps/qpkg/css/qpkg.css
-        readonly BACKUP_PATHFILE=${SOURCE_PATHFILE}.bak
+    # KLUDGE: mark QPKG installation as complete.
 
-    /sbin/setcfg "$QPKG_NAME" Status complete -f /etc/config/qpkg.conf
+    /sbin/setcfg $r_qpkg_name Status complete -f /etc/config/qpkg.conf
 
-    # KLUDGE: 'clean' the QTS 4.5.1 App Center notifier status.
-    [[ -e /sbin/qpkg_cli ]] && /sbin/qpkg_cli --clean "$QPKG_NAME" > /dev/null 2>&1
+    # KLUDGE: 'clean' the QTS 4.5.1+ App Center notifier status.
+
+    [[ -e /sbin/qpkg_cli ]] && /sbin/qpkg_cli --clean $r_qpkg_name &> /dev/null
+
+    readonly r_nas_firmware=$(/sbin/getcfg System Version -f /etc/config/uLinux.conf)
+    readonly r_qpkg_version=$(/sbin/getcfg $r_qpkg_name Version -f /etc/config/qpkg.conf)
+	readonly r_service_action_pathfile=/var/log/$r_qpkg_name.action
+	readonly r_service_result_pathfile=/var/log/$r_qpkg_name.result
+    readonly r_source_pathfile=/home/httpd/cgi-bin/apps/qpkg/css/qpkg.css
+        readonly r_backup_pathfile=$r_source_pathfile.bak
 
     }
 
 StartQPKG()
     {
 
-    [[ ! -e $BACKUP_PATHFILE ]] && cp "$SOURCE_PATHFILE" "$BACKUP_PATHFILE"
+    [[ ! -e $r_backup_pathfile ]] && cp "$r_source_pathfile" "$r_backup_pathfile"
 
-    if [[ ${NAS_FIRMWARE//.} -lt 451 ]]; then
-        /bin/sed -i 's|.store_banner_area{|.store_banner_area{display:none;|' "$SOURCE_PATHFILE"
-    elif [[ ${NAS_FIRMWARE//.} -lt 500 ]]; then
-        /bin/sed -i 's|.store_banner_area,.banner_area{|.store_banner_area,.banner_area{display:none;|' "$SOURCE_PATHFILE"
+    if [[ ${r_nas_firmware//.} -lt 451 ]]; then
+        /bin/sed -i 's|.store_banner_area{|.store_banner_area{display:none;|' "$r_source_pathfile"
+    elif [[ ${r_nas_firmware//.} -lt 500 ]]; then
+        /bin/sed -i 's|.store_banner_area,.banner_area{|.store_banner_area,.banner_area{display:none;|' "$r_source_pathfile"
     else
-        /bin/sed -i 's|.store_banner_area,.banner_area{|.store_banner_area,.banner_area{display:none;|' "$SOURCE_PATHFILE"
-        /bin/sed -i 's| .banner_show{| .banner_show{display:none;|' "$SOURCE_PATHFILE"
+        /bin/sed -i 's|.store_banner_area,.banner_area{|.store_banner_area,.banner_area{display:none;|' "$r_source_pathfile"
+        /bin/sed -i 's| .banner_show{| .banner_show{display:none;|' "$r_source_pathfile"
     fi
 
-    if ! (/bin/cmp -s "$SOURCE_PATHFILE" "$BACKUP_PATHFILE"); then
+    if ! (/bin/cmp -s "$r_source_pathfile" "$r_backup_pathfile"); then
         LogWrite 'App Center UI was patched successfully.' 0
         return 0
     else
-        LogWrite "App Center UI was not patched ($(GetQnapOS) $NAS_FIRMWARE)." 2
+        LogWrite "App Center UI was not patched ($(GetQnapOS) $r_nas_firmware)." 2
         return 1
     fi
 
@@ -78,7 +89,7 @@ StartQPKG()
 StopQPKG()
     {
 
-    [[ -e $BACKUP_PATHFILE ]] && mv "$BACKUP_PATHFILE" "$SOURCE_PATHFILE"
+    [[ -e $r_backup_pathfile ]] && mv "$r_backup_pathfile" "$r_source_pathfile"
     return 0
 
     }
@@ -86,7 +97,7 @@ StopQPKG()
 StatusQPKG()
     {
 
-    if [[ -e $BACKUP_PATHFILE ]] && ! (/bin/cmp -s "$SOURCE_PATHFILE" "$BACKUP_PATHFILE"); then
+    if [[ -e $r_backup_pathfile ]] && ! (/bin/cmp -s "$r_source_pathfile" "$r_backup_pathfile"); then
         echo active
         exit 0
     else
@@ -106,14 +117,14 @@ ShowTitle()
 ShowAsTitleName()
 	{
 
-	TextBrightWhite $QPKG_NAME
+	TextBrightWhite $r_qpkg_name
 
 	}
 
 ShowAsVersion()
 	{
 
-	printf '%s' "v$QPKG_VERSION"
+	printf '%s' "v$r_qpkg_version"
 
 	}
 
@@ -127,20 +138,21 @@ ShowAsUsage()
 LogWrite()
     {
 
-    # $1 = message to write into NAS system log
-    # $2 = event type:
-    #   0 = Information
-    #   1 = Warning
-    #   2 = Error
+    # Inputs: (local)
+    #   $1 = message to write into NAS system log
+    #   $2 = event type:
+    #       0 = Information
+    #       1 = Warning
+    #       2 = Error
 
-    /sbin/log_tool --append "[$QPKG_NAME] $1" --type "$2"
+    /sbin/log_tool --append "[$r_qpkg_name] ${1:-}" --type "${2:-}"
 
     }
 
 GetQnapOS()
 	{
 
-	if /bin/grep -q zfs /proc/filesystems; then
+	if /bin/grep zfs /proc/filesystems &> /dev/null; then
 		printf 'QuTS hero'
 	else
 		printf QTS
@@ -186,14 +198,14 @@ SetServiceResultAsInProgress()
 CommitServiceAction()
 	{
 
-    echo "$service_action" > "$SERVICE_ACTION_PATHFILE"
+    echo "$service_action" > "$r_service_action_pathfile"
 
 	}
 
 CommitServiceResult()
 	{
 
-    echo "$service_result" > "$SERVICE_RESULT_PATHFILE"
+    echo "$service_result" > "$r_service_result_pathfile"
 
 	}
 
@@ -202,13 +214,13 @@ TextBrightWhite()
 
 	[[ -n ${1:-} ]] || return
 
-    printf '\033[1;97m%s\033[0m' "$1"
+    printf '\033[1;97m%s\033[0m' "${1:-}"
 
 	}
 
 Init
 
-user_arg=${USER_ARGS_RAW%% *}		# Only process first argument.
+user_arg=${r_user_args_raw%% *}		# Only process first argument.
 
 case $user_arg in
     ?(--)restart)

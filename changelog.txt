@@ -1,3 +1,6 @@
+* Minor update: (250706)
+- General code refresh.
+
 * Minor update: (240807)
 - General code refresh.
 - Update actions for compatibility with sherpa.
