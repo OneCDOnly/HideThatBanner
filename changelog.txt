@@ -1,4 +1,4 @@
-* Minor update: (260927)
+* Minor update: (260924)
 - remove: 'pipefail' as a global script setting.
 - remove: unused code
 
