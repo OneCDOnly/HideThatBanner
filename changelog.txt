@@ -1,3 +1,7 @@
+* Minor update: (260927)
+- remove: 'pipefail' as a global script setting.
+- remove: unused code
+
 * Minor update: (250927)
 - code: update post-install func to include action and result.
 
