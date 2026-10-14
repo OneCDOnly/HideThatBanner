@@ -1,3 +1,6 @@
+* Minor update: (261015)
+- remove: rename example file. New release version is unrequired.
+
 * Minor update: (260924)
 - remove: 'pipefail' as a global script setting.
 - remove: unused code
